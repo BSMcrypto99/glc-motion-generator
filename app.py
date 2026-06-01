@@ -1,7 +1,5 @@
 import streamlit as st
 import requests
-import io
-from PIL import Image
 
 st.set_page_config(page_title="GLC Motion & Logo Generator", page_icon="🎨", layout="centered")
 
@@ -31,14 +29,8 @@ if menu == "Logo Studio":
             try:
                 final_prompt = f"A professional minimalist logo, {logo_style} style, text with '{brand_name}', tagline '{tagline}', color theme {color_palette}, high resolution vector graphic, masterpiece, clean background"
                 api_url = f"https://image.pollinations.ai/p/{requests.utils.quote(final_prompt)}?width=1024&height=1024&enhance=true"
-                response = requests.get(api_url, timeout=30)
-                if response.status_code == 200:
-                    image = Image.open(io.BytesIO(response.content))
-                    st.success("Logo Generated Successfully!")
-                    st.image(image, caption=f"Crafted for {brand_name}", use_container_width=True)
-                    st.download_button(label="Download Logo 📥", data=response.content, file_name=f"{brand_name}_logo.png", mime="image/png")
-                else:
-                    st.error("API Engine ယာယီအဆင်မပြေဖြစ်နေပါသည်။")
+                st.success("Logo Generated Successfully!")
+                st.image(api_url, caption=f"Crafted for {brand_name}", use_container_width=True)
             except Exception as e:
                 st.error(f"Error: {e}")
 
